@@ -48,7 +48,22 @@ Route::group(['prefix' => 'admin'], function(){
       return view('admin.create');
   })->name('admin.create');
 
-  Route::post('create', function(\Illuminate\Http\Request $request){
+
+//injecting $validator into post requests
+  Route::post('create', function(\Illuminate\Http\Request $request, \Illuminate\Validation\Factory $validator){
+    // calling our validator, applying make method, argument is $request using all() method
+    $validation = $validator->make($request->all(), [
+      // validation rules: https://laravel.com/docs/5.4/validation#available-validation-rules
+      'title' => 'required|min:5',
+      'content'=>'required|min:10'
+    ]);
+    // if variable validation fails
+    if($validation->fails()){
+      //ship errors back to the view
+      return redirect()->back()->withErrors($validation);
+    }
+
+
     //redirecting back to admin index page.
     return redirect()
     ->route('admin.index')
@@ -72,7 +87,20 @@ Route::group(['prefix' => 'admin'], function(){
       return view('admin.edit', ['post' => $post]);
   })->name('admin.edit');
 
-  Route::post('edit', function(\Illuminate\Http\Request $request){
+  Route::post('edit', function(\Illuminate\Http\Request $request, \Illuminate\Validation\Factory $validator){
+    // calling our validator, applying make method, argument is $request using all() method
+    $validation = $validator->make($request->all(), [
+      // validation rules: https://laravel.com/docs/5.4/validation#available-validation-rules
+      'title' => 'required|min:5',
+      'content'=>'required|min:10'
+    ]);
+    // if variable validation fails
+    if($validation->fails()){
+      //ship errors back to the view
+      return redirect()->back()->withErrors($validation);
+    }
+
+
     //redirecting back to admin index page.
     return redirect()
     ->route('admin.index')
