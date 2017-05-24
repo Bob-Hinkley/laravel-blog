@@ -16,8 +16,20 @@ Route::get('/', function () {
 })->name('blog.index');
 
 // (First is path, and second is what's executed)
-Route::get('post/{id}', function(){
-  return view('blog.post');
+Route::get('post/{id}', function($id){
+  if ($id ==1) {
+    $post = [
+      'title' => 'Learning Laravel',
+      'content' => 'This blog post will get you right on track with Laravel'
+    ];
+  } else {
+    $post = [
+      'title' => 'Something Else',
+      'content' => 'Some other content'
+    ];
+  }
+  //asigning post variable
+  return view('blog.post', ['post' => $post]);
 })->name('blog.post');
 
 Route::get('about', function () {
@@ -36,16 +48,37 @@ Route::group(['prefix' => 'admin'], function(){
       return view('admin.create');
   })->name('admin.create');
 
-  Route::post('create', function(){
-    return "It works";
+  Route::post('create', function(\Illuminate\Http\Request $request){
+    //redirecting back to admin index page.
+    return redirect()
+    ->route('admin.index')
+    // With method will display with just available request first time.
+    //concatinated request input from admin.edit.  Edit has input with name of 'title'
+    ->with('info', 'Post created, Title: ' . $request->input('title'));
   })->name('admin.create');
 
-  Route::get('edit/{id}', function () {
-      return view('admin.edit');
+  Route::get('edit/{id}', function ($id) {
+    if ($id ==1) {
+      $post = [
+        'title' => 'Learning Laravel',
+        'content' => 'This blog post will get you right on track with Laravel'
+      ];
+    } else {
+      $post = [
+        'title' => 'Something Else',
+        'content' => 'Some other content'
+      ];
+    }
+      return view('admin.edit', ['post' => $post]);
   })->name('admin.edit');
 
-  Route::post('edit', function(){
-    return "It works";
+  Route::post('edit', function(\Illuminate\Http\Request $request){
+    //redirecting back to admin index page.
+    return redirect()
+    ->route('admin.index')
+    // With method will display with just available request first time.
+    //concatinated request input from admin.edit.  Edit has input with name of 'title'
+    ->with('info', 'Post edited, new Title: ' . $request->input('title'));
   })->name('admin.update');
 
 });

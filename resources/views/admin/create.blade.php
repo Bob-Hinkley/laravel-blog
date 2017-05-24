@@ -13,6 +13,8 @@
                     <label for="content">Content</label>
                     <input type="text" class="form-control" id="content" name="content">
                 </div>
+                {{-- // adding security CSFR token.  It's hidden by default. --}}
+                {{ csrf_field() }}
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
