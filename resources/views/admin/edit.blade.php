@@ -1,6 +1,8 @@
 @extends('layouts.admin')
 
 @section('content')
+  {{-- // calling $error logic from another file --}}
+  @include('partials.errors')
     <div class="row">
         <div class="col-md-12">
           {{-- Notice -> Method set to POST! --}}

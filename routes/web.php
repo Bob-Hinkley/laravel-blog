@@ -11,9 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('blog.index');
-})->name('blog.index');
+//referencing controller, specifically getIndex function
+Route::get('/', 'PostController@getIndex')->name('blog.index');
 
 // (First is path, and second is what's executed)
 Route::get('post/{id}', function($id){
